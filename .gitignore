@@ -12,3 +12,5 @@ memory/.pending_evaluations.json
 memory/MEMORY.md
 memory/USER.md
 memory/PROJECT.md
+*.pyc
+__pycache__/
