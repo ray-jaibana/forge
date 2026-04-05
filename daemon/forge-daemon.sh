@@ -72,9 +72,11 @@ cmd_status() {
     echo "Log: $LOG_FILE"
     echo ""
     echo "Registered cron jobs:"
-    for f in "$CRONS_DIR"/*.json 2>/dev/null; do
+    shopt -s nullglob
+    for f in "$CRONS_DIR"/*.json; do
       [ -f "$f" ] && jq -r '"  • \(.name) — \(.schedule)"' "$f"
     done
+    shopt -u nullglob
   else
     echo "❌ FORGE daemon not running"
   fi
