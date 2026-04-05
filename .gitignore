@@ -5,3 +5,10 @@ node_modules/
 daemon/logs/*.log
 content/assets/ads/raw/
 .claude/settings.local.json
+
+# Memory database (local only, never committed)
+memory/forge_memory.db
+memory/.pending_evaluations.json
+memory/MEMORY.md
+memory/USER.md
+memory/PROJECT.md

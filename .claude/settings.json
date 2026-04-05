@@ -33,5 +33,18 @@
       "mcp__github__*"
     ],
     "deny": []
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python memory/skill_trigger.py run-pending 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
   }
 }

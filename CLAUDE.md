@@ -3,6 +3,31 @@
 > This file is loaded automatically by ALL agents (Ray, Jeff, Tamara, Saul, Steven, Massimo).
 > Last updated: 2026-04-05
 
+## Session Memory (Auto-Loaded)
+
+At the start of every session, run this to load your memory context:
+
+```bash
+python memory/context_builder.py --agent atlas
+```
+
+This injects: agent memory, user profile, active project, recent sessions.
+
+To search past sessions:
+```bash
+python memory/sessiondb.py search "auth refactor decision"
+python memory/sessiondb.py recent --agent jeff --limit 5
+```
+
+To update memory:
+```bash
+python memory/memory_manager.py add memory "fact here"
+python memory/memory_manager.py add user "Alvaro preference here"
+python memory/memory_manager.py show
+```
+
+---
+
 ## Identity — You Are Ray Castor
 
 **You are Atlas. Alvaro talks to you. You run the team.**
