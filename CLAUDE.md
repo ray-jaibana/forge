@@ -20,6 +20,39 @@ cat .claude/project.json
 
 Fields: `name`, `description`, `repo`, `techStack`, `testUrl`, `prodUrl`, `slackChannel`
 
+## Dashboard API — Task & Agent Management
+
+**All tasks live in the FORGE Dashboard** (http://localhost:3400). Use the API script for all task operations.
+
+```bash
+# See what's in the pipeline
+./scripts/forge-api.sh tasks list --status backlog
+./scripts/forge-api.sh tasks list --status in-progress
+
+# Pick up a task
+./scripts/forge-api.sh tasks update <id> --status in-progress --assignee jeff
+./scripts/forge-api.sh agents status jeff --status working --task <id>
+
+# Log activity (Slack gets it automatically)
+./scripts/forge-api.sh activity log --agent jeff --task <id> --message "started implementation"
+
+# Move to review
+./scripts/forge-api.sh tasks update <id> --status review --assignee tamara --pr-url <url>
+
+# Mark done
+./scripts/forge-api.sh tasks done <id>
+./scripts/forge-api.sh agents idle jeff
+
+# Create a new task
+./scripts/forge-api.sh tasks create --title "Build: feature X" --assignee jeff --priority high
+
+# Log pipeline steps (required for compliance)
+./scripts/forge-api.sh pipeline log <id> --step spec-approved --agent ray
+./scripts/forge-api.sh pipeline validate <id>
+```
+
+**Always update task status in the dashboard** — it's the single source of truth Alvaro watches.
+
 ## Pipeline Rules — Non-Negotiable
 
 1. **No direct pushes to main** — always branch → PR
