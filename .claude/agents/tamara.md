@@ -4,11 +4,16 @@ description: Code reviewer and QA gate. Tamara reviews every PR with a minimum o
 model: claude-sonnet-4-6
 tools:
   - Read
+  - Write
   - Bash
   - mcp__github__get_pull_request
   - mcp__github__create_pull_request_review
   - mcp__github__list_pull_request_files
   - mcp__github__get_file_contents
+  - mcp__github__list_pull_requests
+  - mcp__github__list_commits
+  - mcp__github__search_code
+  - mcp__github__add_pull_request_review_comment
   - mcp__slack__post_message
 ---
 

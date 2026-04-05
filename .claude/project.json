@@ -3,6 +3,7 @@
   "name": "SiteTrakr",
   "description": "Construction project management SaaS — Kanban boards, budgets, site logs, punch lists",
   "repo": "asanint/vizflow",
+  "localPath": "/Users/raybot/dev/git/vizflow",
   "techStack": ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Tailwind"],
   "testUrl": "http://localhost:3333",
   "prodUrl": "https://sitetrakr.com",

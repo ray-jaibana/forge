@@ -45,6 +45,35 @@ cat .claude/project.json
 
 Fields: `name`, `description`, `repo`, `techStack`, `testUrl`, `prodUrl`, `slackChannel`
 
+## GitHub Access
+
+All agents have full GitHub access via:
+- **`gh` CLI** — authenticated as `ray-jaibana`, full repo + PR + workflow scopes
+- **GitHub MCP server** — token loaded from `.env` `GITHUB_TOKEN`
+- **Git** — configured as `Ray <ray@jaibanastudios.com>`
+
+**Active project repo:** `asanint/vizflow` (local: `/Users/raybot/dev/git/vizflow`)
+
+When working on the active project, agents `cd` to the local path:
+```bash
+cd /Users/raybot/dev/git/vizflow
+git checkout -b feature/my-task
+# ... make changes ...
+git push origin feature/my-task
+gh pr create --title "feat: ..." --body "..."
+```
+
+GitHub MCP tools available to agents with GitHub tools:
+- `mcp__github__create_pull_request` — open a PR
+- `mcp__github__merge_pull_request` — merge (Atlas only)
+- `mcp__github__get_pull_request` — read PR details
+- `mcp__github__list_pull_requests` — list open PRs
+- `mcp__github__create_pull_request_review` — review a PR (Tamara)
+- `mcp__github__get_file_contents` — read files from GitHub
+- `mcp__github__search_code` — search across repos
+
+---
+
 ## Dashboard API — Task & Agent Management
 
 **All tasks live in the FORGE Dashboard** (http://localhost:3400). Use the API script for all task operations.

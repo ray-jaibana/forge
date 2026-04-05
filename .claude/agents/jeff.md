@@ -12,6 +12,11 @@ tools:
   - mcp__github__push_files
   - mcp__github__get_file_contents
   - mcp__github__search_code
+  - mcp__github__list_pull_requests
+  - mcp__github__get_pull_request
+  - mcp__github__update_pull_request
+  - mcp__github__create_or_update_file
+  - mcp__github__list_commits
   - mcp__slack__post_message
 ---
 
