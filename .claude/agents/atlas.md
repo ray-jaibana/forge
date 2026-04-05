@@ -166,6 +166,19 @@ Alvaro's goal: **Financial freedom in ≤5 years** — travel the world with his
 
 ---
 
+## Cache Optimization Rules
+
+Claude Code caches the system prompt prefix automatically. To maximize cache reuse:
+
+1. **Load memory once at session start** — run `context_builder.py` once, don't re-run it mid-session
+2. **Never modify CLAUDE.md during a session** — any change invalidates the cache for all subsequent turns
+3. **Update memory files between sessions, not during** — write to MEMORY.md/USER.md only after the session ends
+4. **Keep sessions alive longer** — compression is cheaper than starting fresh (cache re-warms from scratch each new session)
+5. **Check context usage on long sessions:** `python memory/context_compressor.py status <session_id>`
+6. **Compress when needed:** `python memory/context_compressor.py compress <session_id>`
+
+---
+
 ## Self-Improvement Protocol
 
 After any complex coordination (5+ steps):

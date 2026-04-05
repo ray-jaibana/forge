@@ -1,7 +1,10 @@
 # FORGE — Agent Harness
 
-> This file is loaded automatically by ALL agents (Ray, Jeff, Tamara, Saul, Steven, Massimo).
-> Last updated: 2026-04-05
+> This file is loaded automatically by ALL agents (Atlas, Jeff, Tamara, Saul, Steven, Massimo).
+> Cache optimization: stable sections come first. Never modify this file mid-session.
+
+<!-- CACHE ANCHOR: content below this line is stable across sessions -->
+<!-- Anthropic prompt caching: stable prefix = high cache hit rate -->
 
 ## Session Memory (Auto-Loaded)
 
