@@ -4,6 +4,6 @@
   "cron": "0 22 * * 1",
   "enabled": true,
   "agent": "saul",
-  "slack_channel": "#forge-research",
+  "slack_channel": "C0AQVKP9LN9",
   "prompt": "Monday night research session. Load .claude/skills/research/competitor-analysis.md and run the full competitive analysis for the active project. Focus on:\n1. What did competitors ship in the last 7 days?\n2. Any pricing changes?\n3. New pain points surfacing on Reddit/reviews?\n\nCreate tasks in the shared task list for any actionable findings. Post a summary to #forge-research."
 }

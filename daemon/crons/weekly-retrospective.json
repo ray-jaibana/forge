@@ -4,6 +4,6 @@
   "cron": "0 22 * * 7",
   "enabled": true,
   "agent": "ray",
-  "slack_channel": "#forge-pipeline",
+  "slack_channel": "C0AR2KMUZ8C",
   "prompt": "Sunday night retrospective. Review the week and improve the team:\n\n1. Review completed tasks from this week — what went well, what had rework?\n2. Check .claude/memory/incidents.md — any patterns emerging?\n3. Review skills in .claude/skills/ — any that need updating based on this week's work?\n4. Update agent definitions if any agent consistently struggled with something\n5. Create 'Research:' tasks for Saul's Monday session based on this week's gaps\n\nAfter updates, post a brief weekly summary to #forge-pipeline:\n- Tasks completed this week\n- Skills updated\n- Top priority for next week\n\nThis is the self-improvement cycle. Make the team better every week."
 }
