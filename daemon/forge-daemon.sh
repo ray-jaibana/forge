@@ -148,7 +148,7 @@ cmd_run() {
       log "Firing job: $JOB_NAME"
 
       PROMPT=$(jq -r '.prompt' "$CRON_FILE")
-      AGENT=$(jq -r '.agent // "ray"' "$CRON_FILE")
+      AGENT=$(jq -r '.agent // "atlas"' "$CRON_FILE")
       SLACK_CHANNEL=$(jq -r '.slack_channel // ""' "$CRON_FILE")
       JOB_LOG="$LOGS_DIR/${JOB_NAME}-$(date +%Y%m%d-%H%M).log"
 
@@ -186,7 +186,7 @@ cmd_run() {
       if [ "$HB_ELAPSED" -ge "$HB_INTERVAL" ]; then
         echo $NOW > "$LAST_RUN_DIR/__heartbeat__"
         HB_PROMPT=$(jq -r '.prompt' "$HEARTBEAT_FILE")
-        HB_AGENT=$(jq -r '.agent // "ray"' "$HEARTBEAT_FILE")
+        HB_AGENT=$(jq -r '.agent // "atlas"' "$HEARTBEAT_FILE")
         HB_CHANNEL=$(jq -r '.slack_channel // "#forge-pipeline"' "$HEARTBEAT_FILE")
         log "Firing heartbeat check"
 

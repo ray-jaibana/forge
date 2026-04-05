@@ -1,7 +1,7 @@
 {
   "_comment": "Heartbeat config — runs every N minutes, checks system health",
   "interval_minutes": 120,
-  "agent": "ray",
+  "agent": "atlas",
   "slack_channel": "C0AR2KMUZ8C",
   "prompt": "FORGE heartbeat check. Read CLAUDE.md for context. Check:\n1. Are any in-progress tasks stuck (no updates in >4 hours)? If so, flag them.\n2. Are there high-priority backlog tasks with no assignee? If so, note them.\n3. Any PRs waiting for review >2 hours? Flag to Tamara.\n4. Anything that needs Alvaro's attention?\n\nIf nothing needs attention, reply exactly: HEARTBEAT_OK\nIf something needs attention, post a brief alert to #forge-alerts and describe what needs action."
 }

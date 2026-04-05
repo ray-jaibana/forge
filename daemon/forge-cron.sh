@@ -45,7 +45,7 @@ cmd_run() {
 
   local PROMPT AGENT SLACK_CHANNEL
   PROMPT=$(jq -r '.prompt' "$CRON_FILE")
-  AGENT=$(jq -r '.agent // "ray"' "$CRON_FILE")
+  AGENT=$(jq -r '.agent // "atlas"' "$CRON_FILE")
   SLACK_CHANNEL=$(jq -r '.slack_channel // ""' "$CRON_FILE")
 
   echo "Running job: $NAME (agent: $AGENT)"
