@@ -21,6 +21,35 @@ The whole team gets smarter over time via a shared skill library.
 
 ---
 
+## Architecture
+
+FORGE has two layers:
+
+1. **Claude Code session** — the agent team (interactive, runs when you're working)
+2. **FORGE Daemon** — background process for crons + heartbeats (runs 24/7, no Claude session needed)
+
+```
+┌─────────────────────────────────────────┐
+│           FORGE CLI  (./forge)          │
+├──────────────────┬──────────────────────┤
+│  Claude Code     │  FORGE Daemon        │
+│  Agent Teams     │  (background)        │
+│                  │                      │
+│  Ray (lead)      │  Cron scheduler      │
+│  Jeff            │  Heartbeat checks    │
+│  Tamara          │  Slack delivery      │
+│  Saul            │  Log rotation        │
+│  Steven          │                      │
+│  Massimo         │  daemon/crons/*.json │
+│                  │  daemon/heartbeat.json│
+└──────────────────┴──────────────────────┘
+```
+
+The daemon fires Claude Code non-interactively (`claude --print`) for scheduled tasks.
+Agent sessions run interactively when you open `forge session` or `forge start`.
+
+---
+
 ## Quick Start
 
 ### Prerequisites
@@ -47,17 +76,35 @@ The whole team gets smarter over time via a shared skill library.
    # Edit .claude/project.json with your target repo details
    ```
 
-4. **Start Claude Code:**
+4. **Start FORGE (daemon + session):**
    ```bash
-   claude
+   ./forge start
+   # This starts the background daemon (crons + heartbeat)
+   # Then opens a Claude Code session
    ```
 
-5. **Spawn the team:**
+5. **Or start just the session (no daemon):**
+   ```bash
+   ./forge session
+   ```
+
+6. **Spawn the team:**
    ```
    Assemble the FORGE team. Active project is SiteTrakr. Start with Saul 
    researching competitors, Jeff picking up the first backlog task, and 
    Tamara on standby for review.
    ```
+
+### Daily Usage
+
+```bash
+./forge status           # See what's running, what crons are scheduled
+./forge cron list        # List all cron jobs
+./forge cron run morning-brief   # Fire a job immediately
+./forge heartbeat        # Run heartbeat check now
+./forge project          # Show active project
+./forge logs             # Watch daemon logs
+```
 
 ---
 

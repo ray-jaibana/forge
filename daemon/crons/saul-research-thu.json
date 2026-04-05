@@ -1,0 +1,9 @@
+{
+  "name": "saul-research-thursday",
+  "description": "Thursday night SEO + user pain points research",
+  "cron": "0 22 * * 4",
+  "enabled": true,
+  "agent": "saul",
+  "slack_channel": "#forge-research",
+  "prompt": "Thursday night research session. Load .claude/skills/research/competitor-analysis.md. Focus on:\n1. SEO keyword opportunities — find 5 keywords we could rank for in the next 90 days\n2. User pain points — what are target customers complaining about this week?\n3. Feature gap analysis — what are competitors NOT building that users want?\n\nCreate tasks for Steven (content) and Jeff (features) based on findings. Post summary to #forge-research."
+}

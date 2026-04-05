@@ -1,0 +1,9 @@
+{
+  "name": "content-publish-check",
+  "description": "Tuesday and Friday morning — remind Steven to publish approved content",
+  "cron": "0 9 * * 2,5",
+  "enabled": true,
+  "agent": "steven",
+  "slack_channel": "#forge-pipeline",
+  "prompt": "Content publishing check. Review content/drafts/ for any approved content (files with status: approved in frontmatter or marked approved in #forge-pipeline). For each approved item:\n1. Confirm it's ready to publish\n2. Post the final version to #forge-pipeline for Alvaro's final check\n3. If already approved by Alvaro, post publishing instructions\n\nIf nothing is ready, check what's in draft and post a brief status to #forge-pipeline."
+}

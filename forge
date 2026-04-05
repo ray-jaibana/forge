@@ -1,0 +1,120 @@
+#!/bin/bash
+# forge — FORGE CLI
+# The single entrypoint for everything in the FORGE system
+#
+# Usage:
+#   forge start              # Start daemon + open Claude Code session
+#   forge stop               # Stop daemon
+#   forge status             # Full system status
+#   forge cron list          # List cron jobs
+#   forge cron run <name>    # Run a cron job immediately
+#   forge cron enable <name>
+#   forge cron disable <name>
+#   forge cron logs [name]
+#   forge heartbeat          # Run heartbeat check now
+#   forge project <repo>     # Switch active project
+#   forge session            # Open Claude Code (interactive)
+#   forge logs               # Tail daemon logs
+
+set -euo pipefail
+
+FORGE_ROOT="$(cd "$(dirname "$0")" && pwd)"
+DAEMON_DIR="$FORGE_ROOT/daemon"
+
+# Load env if present
+[ -f "$FORGE_ROOT/.env" ] && set -a && source "$FORGE_ROOT/.env" && set +a
+
+banner() {
+  echo ""
+  echo "🔥 FORGE — Autonomous Multi-Agent Pipeline"
+  echo "   Claude Code native · Zero API billing · Slack-first"
+  echo ""
+}
+
+cmd_start() {
+  banner
+  bash "$DAEMON_DIR/forge-daemon.sh" start
+  echo ""
+  echo "Starting Claude Code session..."
+  echo "(Tip: Tell Ray to 'Assemble the FORGE team' to spawn all agents)"
+  echo ""
+  cd "$FORGE_ROOT" && claude
+}
+
+cmd_stop() {
+  bash "$DAEMON_DIR/forge-daemon.sh" stop
+}
+
+cmd_status() {
+  banner
+  bash "$DAEMON_DIR/forge-daemon.sh" status
+  echo ""
+  bash "$DAEMON_DIR/forge-cron.sh" list
+}
+
+cmd_session() {
+  cd "$FORGE_ROOT" && claude
+}
+
+cmd_heartbeat() {
+  echo "Running heartbeat check..."
+  HB_PROMPT=$(jq -r '.prompt' "$DAEMON_DIR/heartbeat.json")
+  HB_AGENT=$(jq -r '.agent // "ray"' "$DAEMON_DIR/heartbeat.json")
+  cd "$FORGE_ROOT"
+  claude --print --agent "$HB_AGENT" --permission-mode bypassPermissions "$HB_PROMPT"
+}
+
+cmd_project() {
+  local REPO="${1:-}"
+  if [ -z "$REPO" ]; then
+    echo "Current project:"
+    jq '.' "$FORGE_ROOT/.claude/project.json"
+    echo ""
+    echo "Usage: forge project <repo-name>"
+    echo "Example: forge project asanint/pixfable"
+    return
+  fi
+  
+  # Update project.json with new repo
+  CURRENT=$(cat "$FORGE_ROOT/.claude/project.json")
+  echo "$CURRENT" | jq --arg repo "$REPO" '.repo = $repo' \
+    > "$FORGE_ROOT/.claude/project.json"
+  echo "✅ Active project updated to: $REPO"
+  echo "Restart your Claude Code session for agents to pick up the change."
+}
+
+case "${1:-status}" in
+  start)      cmd_start ;;
+  stop)       cmd_stop ;;
+  status)     cmd_status ;;
+  session)    cmd_session ;;
+  heartbeat)  cmd_heartbeat ;;
+  project)    cmd_project "${2:-}" ;;
+  cron)
+    shift
+    bash "$DAEMON_DIR/forge-cron.sh" "$@"
+    ;;
+  logs)
+    bash "$DAEMON_DIR/forge-daemon.sh" logs
+    ;;
+  help|--help|-h)
+    banner
+    echo "Commands:"
+    echo "  forge start              — Start daemon + open Claude Code"
+    echo "  forge stop               — Stop daemon"
+    echo "  forge status             — System status + cron job list"
+    echo "  forge session            — Open Claude Code (no daemon start)"
+    echo "  forge heartbeat          — Run heartbeat check now"
+    echo "  forge project [repo]     — Show or switch active project"
+    echo "  forge cron list          — List all cron jobs"
+    echo "  forge cron run <name>    — Run a job immediately"
+    echo "  forge cron enable <name> — Enable a job"
+    echo "  forge cron disable <name>— Disable a job"
+    echo "  forge cron logs [name]   — Show logs"
+    echo "  forge logs               — Tail daemon logs"
+    ;;
+  *)
+    echo "Unknown command: $1. Run 'forge help' for usage."
+    exit 1
+    ;;
+esac

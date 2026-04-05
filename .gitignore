@@ -2,4 +2,6 @@
 .DS_Store
 node_modules/
 *.log
+daemon/logs/*.log
 content/assets/ads/raw/
+.claude/settings.local.json

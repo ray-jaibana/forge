@@ -1,0 +1,10 @@
+{
+  "name": "morning-brief",
+  "description": "Morning briefing — pipeline status, tasks for today, anything needing Alvaro's attention",
+  "cron": "0 7 * * 1-5",
+  "enabled": true,
+  "agent": "ray",
+  "slack_channel": "#forge-alerts",
+  "ignore_quiet": true,
+  "prompt": "Good morning. Send a morning briefing to #forge-alerts for Alvaro covering:\n1. What's in progress right now (tasks + which agent owns them)\n2. What's waiting for review or Alvaro's approval\n3. Top 2-3 priorities for today\n4. Any blockers or issues to be aware of\n\nKeep it short and scannable — bullets, not paragraphs. This goes to Slack #forge-alerts."
+}
