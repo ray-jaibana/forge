@@ -1,0 +1,17 @@
+{
+  "_comment": "Update this file to switch FORGE to a different active project",
+  "name": "SiteTrakr",
+  "description": "Construction project management SaaS — Kanban boards, budgets, site logs, punch lists",
+  "repo": "asanint/vizflow",
+  "techStack": ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Tailwind"],
+  "testUrl": "http://localhost:3333",
+  "prodUrl": "https://sitetrakr.com",
+  "slackWorkspace": "jaibana",
+  "slackChannels": {
+    "pipeline": "#forge-pipeline",
+    "reviews": "#forge-reviews",
+    "research": "#forge-research",
+    "alerts": "#forge-alerts",
+    "skills": "#forge-skills"
+  }
+}
