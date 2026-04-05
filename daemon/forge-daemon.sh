@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # forge-daemon.sh — FORGE Runtime Daemon
 #
 # This is the heartbeat + cron engine that runs independently of OpenClaw.
@@ -91,8 +91,9 @@ cmd_logs() {
 cmd_run() {
   log "FORGE daemon run loop started"
   
-  # Track last run times per job (key=job_name, value=epoch seconds)
-  declare -A LAST_RUN
+  # Track last run times via flat files in .lastrun/
+  LAST_RUN_DIR="$DAEMON_DIR/logs/.lastrun"
+  mkdir -p "$LAST_RUN_DIR"
 
   while true; do
     NOW=$(date +%s)
@@ -126,7 +127,8 @@ cmd_run() {
 
       # Check if due (simple interval-based for now; cron expr support via daemon/lib/cron-check.sh)
       INTERVAL=$(jq -r '.interval_minutes // 0' "$CRON_FILE")
-      LAST="${LAST_RUN[$JOB_NAME]:-0}"
+      LAST_FILE="$LAST_RUN_DIR/$(echo "$JOB_NAME" | tr '/' '_')"
+      LAST=$(cat "$LAST_FILE" 2>/dev/null || echo 0)
       
       if [ "$INTERVAL" -gt 0 ]; then
         ELAPSED=$(( (NOW - LAST) / 60 ))
@@ -142,7 +144,7 @@ cmd_run() {
       fi
 
       # ── Fire the job ──────────────────────────────────────────────────────
-      LAST_RUN[$JOB_NAME]=$NOW
+      echo $NOW > "$LAST_RUN_DIR/$(echo "$JOB_NAME" | tr '/' '_')"
       log "Firing job: $JOB_NAME"
 
       PROMPT=$(jq -r '.prompt' "$CRON_FILE")
@@ -178,11 +180,11 @@ cmd_run() {
     HEARTBEAT_FILE="$DAEMON_DIR/heartbeat.json"
     if [ -f "$HEARTBEAT_FILE" ]; then
       HB_INTERVAL=$(jq -r '.interval_minutes // 120' "$HEARTBEAT_FILE")
-      HB_LAST="${LAST_RUN[__heartbeat__]:-0}"
+      HB_LAST=$(cat "$LAST_RUN_DIR/__heartbeat__" 2>/dev/null || echo 0)
       HB_ELAPSED=$(( (NOW - HB_LAST) / 60 ))
 
       if [ "$HB_ELAPSED" -ge "$HB_INTERVAL" ]; then
-        LAST_RUN[__heartbeat__]=$NOW
+        echo $NOW > "$LAST_RUN_DIR/__heartbeat__"
         HB_PROMPT=$(jq -r '.prompt' "$HEARTBEAT_FILE")
         HB_AGENT=$(jq -r '.agent // "ray"' "$HEARTBEAT_FILE")
         HB_CHANNEL=$(jq -r '.slack_channel // "#forge-pipeline"' "$HEARTBEAT_FILE")

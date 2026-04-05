@@ -35,10 +35,9 @@ cmd_start() {
   banner
   bash "$DAEMON_DIR/forge-daemon.sh" start
   echo ""
-  echo "Starting Claude Code session..."
-  echo "(Tip: Tell Ray to 'Assemble the FORGE team' to spawn all agents)"
+  echo "Daemon running. To open an interactive agent session:"
+  echo "  ./forge session"
   echo ""
-  cd "$FORGE_ROOT" && claude
 }
 
 cmd_stop() {
